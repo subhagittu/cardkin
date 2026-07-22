@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, Plane, Coffee, ShoppingBag, Gem, ArrowRight, Users, Star, MapPin } from 'lucide-react';
+import React, { useState } from "react";
+import { Search, Plane, Coffee, ShoppingBag, Gem, ArrowRight } from 'lucide-react';
 import './Hero.css';
 
 const CATEGORIES = [
@@ -7,7 +7,7 @@ const CATEGORIES = [
     { id: 'travel', label: 'Travel', icon: Plane },
     { id: 'lounge', label: 'Lounge', icon: Coffee },
     { id: 'cashback', label: 'Cashback', icon: ShoppingBag },
-    { id: 'premium', label: 'Premium', icon: Gem },
+    { id: 'premium', label: 'Premium', icon: Gem }
 ];
 
 const QUICK_SEARCHES = [
@@ -15,13 +15,7 @@ const QUICK_SEARCHES = [
     'Axis Atlas',
     'SBI Cashback',
     'ICICI Amazon Pay',
-    'Amex Platinum',
-];
-
-const TRUST_BADGES = [
-    { icon: Users, text: '25,000+ members' },
-    { icon: Star, text: '4.9★ avg rating' },
-    { icon: MapPin, text: '40+ cities' },
+    'Amex Platinum'
 ];
 
 export default function Hero({ onSignUpClick, onSearch, isLoggedIn }) {
@@ -31,38 +25,27 @@ export default function Hero({ onSignUpClick, onSearch, isLoggedIn }) {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         const query = searchValue.trim() || CATEGORIES.find(c => c.id === activeCategory)?.label;
-        if (query && onSearch) {
+        if(query && onSearch)
             onSearch(searchValue.trim() || query);
-        }
     };
 
     const handleQuickSearch = (term) => {
         setSearchValue(term);
-        if (onSearch) onSearch(term);
+        if(onSearch)
+            onSearch(term);
     };
 
     return (
         <section className="hero-business" id="home">
             <div className="hero-business-inner animate-fade-up">
-
-                {/* Trust badges row */}
-                <div className="hero-trust-badges">
-                    {TRUST_BADGES.map(({ icon: Icon, text }) => (
-                        <div key={text} className="hero-trust-badge">
-                            <Icon size={13} />
-                            <span>{text}</span>
-                        </div>
-                    ))}
-                </div>
-
                 <div className="hero-copy">
                     <h1>
-                        India's Smartest<br />
+                        India's Smartest<br/>
                         <span className="hero-h1-accent">Credit Card Network</span>
                     </h1>
                     <p>
-                        Find verified cardholders near you. Book lounge access, split rewards,
-                        and unlock premium card benefits — matched in minutes across India.
+                        Find verified cardholders across India. Book lounge access, split rewards,
+                        and unlock premium card benefits - matched instantly from our growing network.
                     </p>
                 </div>
 
@@ -71,7 +54,8 @@ export default function Hero({ onSignUpClick, onSearch, isLoggedIn }) {
                     <div className="hero-cta-pair">
                         <button className="btn btn-primary hero-cta-btn" onClick={() => {
                             const el = document.getElementById('hero-search');
-                            if (el) el.focus();
+                            if(el)
+                                el.focus();
                         }}>
                             Find a cardholder
                             <ArrowRight size={16} />
@@ -90,7 +74,7 @@ export default function Hero({ onSignUpClick, onSearch, isLoggedIn }) {
                                 type="button"
                                 role="tab"
                                 aria-selected={activeCategory === id}
-                                className={`category-tab ${activeCategory === id ? 'active' : ''}`}
+                                className={`category-tab ${activeCategory === id ? 'active': ''}`}
                                 onClick={() => setActiveCategory(id)}
                             >
                                 <Icon size={14} />
@@ -134,9 +118,9 @@ export default function Hero({ onSignUpClick, onSearch, isLoggedIn }) {
 
                 {!isLoggedIn && (
                     <p className="hero-signup-hint">
-                        Already have an account?{' '}
+                        Already have an account?(' ')
                         <button type="button" className="hero-signup-link" onClick={onSignUpClick}>
-                            Sign in to your dashboard →
+                            Sign in to your dashboard
                         </button>
                     </p>
                 )}
