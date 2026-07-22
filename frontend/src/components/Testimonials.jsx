@@ -1,31 +1,24 @@
-import React from 'react';
-import { Star, Quote } from 'lucide-react';
-import './Testimonials.css';
+import React from "react";
+import { Plane, ShoppingBag, Ticket } from "lucide-react";
 
-const REVIEWS = [
+const USE_CASES = [
     {
-        name: 'Arjun Mehta',
-        city: 'Bangalore',
-        initials: 'AM',
-        text: 'Needed lounge access at BLR airport. Found a holder in 2 minutes, paid ₹49 unlock fee, coordinated on WhatsApp. Smooth as any travel app.',
-        rating: 5,
-        use: 'Lounge access',
+        title: 'Airport Lounge Access',
+        icon: Plane,
+        text: 'Need lounge access for your next trip? Connect with cardholders who have complimentary access and fly in comfort.',
+        category: 'Travel Perks'
     },
     {
-        name: 'Priya Nair',
-        city: 'Mumbai',
-        initials: 'PN',
-        text: 'Used CardKin for a Flipkart Big Billion Days purchase through an SBI Cashback holder. Saved ₹2,400 on a ₹48,000 order.',
-        rating: 5,
-        use: 'Cashback match',
+        title: 'E-commerce Mega Sales',
+        icon: ShoppingBag,
+        text: 'Don\'t miss out on instant discounts on major platforms. Match with cardholders to get great deals on phones, laptops, and appliances.',
+        category: 'Cashback & Offers',
     },
     {
-        name: 'Karan Singh',
-        city: 'Delhi NCR',
-        initials: 'KS',
-        text: 'I list my HDFC Infinia and earn from 3–4 matches every month. Verification and ratings make the whole thing feel legitimate.',
-        rating: 5,
-        use: 'Card holder',
+        title: 'Fine Dining & Movies',
+        icon: Ticket,
+        text: 'Getting 1-on-1 movie tickets or exclusive dining discounts is easy when you have a premium credit card network to rely on.',
+        category: 'Entertainment',
     },
 ];
 
@@ -33,32 +26,29 @@ export default function Testimonials() {
     return (
         <section className="testimonials-section landing-section">
             <div className="testimonials-header">
-                <span className="section-label">Reviews</span>
-                <h2>Trusted by thousands of cardholders</h2>
-                <p>Real stories from Indians using CardKin every day</p>
+                <span className="section-label">Use Cases</span>
+                <h2>Endless possibilities with the right card</h2>
+                <p>Discover how you can maximize value through our network</p>
             </div>
 
             <div className="testimonials-grid">
-                {REVIEWS.map((review) => (
-                    <blockquote key={review.name} className="testimonial-card">
-                        <div className="testimonial-top">
-                            <div className="testimonial-stars">
-                                {Array.from({ length: review.rating }).map((_, i) => (
-                                    <Star key={i} size={13} className="star-filled" />
-                                ))}
+                {USE_CASES.map((uc) => {
+                    const Icon = uc.icon;
+                    return (
+                        <div key={uc.title} className="testimonial-card">
+                            <div className="testimonial-top">
+                                <h3 style={{ margin: 0, fontSize: '16px', color: 'var(--text-primary)' }}>{uc.title}</h3>
+                                <Icon size={20} className="testimonial-quote-icon" />
                             </div>
-                            <Quote size={20} className="testimonial-quote-icon" />
+                            <p className="testimonial-text" style={{ marginTop: '12px' }}>{uc.text}</p>
+                            <footer className="testimonial-author">
+                                <div>
+                                    <strong style={{ fontSize: '13.5px' }}>{uc.category}</strong>
+                                </div>
+                            </footer>
                         </div>
-                        <p className="testimonial-text">{review.text}</p>
-                        <footer className="testimonial-author">
-                            <div className="testimonial-avatar">{review.initials}</div>
-                            <div>
-                                <strong>{review.name}</strong>
-                                <span>{review.city} · {review.use}</span>
-                            </div>
-                        </footer>
-                    </blockquote>
-                ))}
+                    );
+                })}
             </div>
         </section>
     );
