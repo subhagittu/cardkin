@@ -1,0 +1,373 @@
+/* ============================================================
+   BACKGROUND ANIMATION LAYER — floating credit cards
+   Works in both dark + light modes via CSS variable overrides
+   ============================================================ */
+
+.bg-animation-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Each floating card wrapper */
+.bg-card-wrapper {
+    position: absolute;
+    transform-origin: center center;
+    animation: card-drift linear infinite;
+    will-change: transform, opacity;
+    opacity: 0;
+}
+
+@keyframes card-drift {
+    0% {
+        transform: var(--card-rot-start, rotate(-15deg) scale(0.8)) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: var(--card-rot-mid, rotate(-12deg) scale(0.8)) translateY(-28px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: var(--card-rot-start, rotate(-15deg) scale(0.8)) translateY(0px);
+        opacity: 0;
+    }
+}
+
+/* ---- SVG card element styles (dark mode default) ---- */
+
+.bg-card-svg {
+    display: block;
+    overflow: visible;
+}
+
+/* Card body outline */
+.card-body {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 1.5;
+    fill: rgba(255, 255, 255, 0.025);
+}
+
+/* Magnetic stripe */
+.card-stripe {
+    fill: rgba(255, 255, 255, 0.06);
+}
+
+/* EMV chip */
+.card-chip {
+    stroke: rgba(234, 179, 8, 0.35);
+    stroke-width: 1;
+    fill: rgba(234, 179, 8, 0.08);
+}
+
+.card-chip-line {
+    stroke: rgba(234, 179, 8, 0.25);
+    stroke-width: 0.75;
+}
+
+/* NFC contactless arcs */
+.card-nfc {
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-linecap: round;
+}
+
+/* Card number dots */
+.card-dot {
+    fill: rgba(255, 255, 255, 0.18);
+}
+
+/* Network circles (Visa/MC style) */
+.card-network-l {
+    fill: rgba(234, 179, 8, 0.15);
+    stroke: rgba(234, 179, 8, 0.22);
+    stroke-width: 1;
+}
+
+.card-network-r {
+    fill: rgba(255, 255, 255, 0.06);
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 1;
+}
+
+/* ---- Light mode overrides ---- */
+
+[data-theme="light"] .card-body {
+    stroke: rgba(0, 0, 0, 0.1);
+    fill: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .card-stripe {
+    fill: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .card-chip {
+    stroke: rgba(161, 98, 7, 0.35);
+    fill: rgba(202, 138, 4, 0.08);
+}
+
+[data-theme="light"] .card-chip-line {
+    stroke: rgba(161, 98, 7, 0.25);
+}
+
+[data-theme="light"] .card-nfc {
+    stroke: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .card-dot {
+    fill: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .card-network-l {
+    fill: rgba(202, 138, 4, 0.12);
+    stroke: rgba(202, 138, 4, 0.2);
+}
+
+[data-theme="light"] .card-network-r {
+    fill: rgba(0, 0, 0, 0.04);
+    stroke: rgba(0, 0, 0, 0.1);
+}
+
+/* Each card gets its own rotation vars via inline style + animation override */
+.bg-card-wrapper:nth-child(1) {
+    animation-name: card-drift-1;
+}
+
+.bg-card-wrapper:nth-child(2) {
+    animation-name: card-drift-2;
+}
+
+.bg-card-wrapper:nth-child(3) {
+    animation-name: card-drift-3;
+}
+
+.bg-card-wrapper:nth-child(4) {
+    animation-name: card-drift-4;
+}
+
+.bg-card-wrapper:nth-child(5) {
+    animation-name: card-drift-5;
+}
+
+.bg-card-wrapper:nth-child(6) {
+    animation-name: card-drift-6;
+}
+
+.bg-card-wrapper:nth-child(7) {
+    animation-name: card-drift-7;
+}
+
+.bg-card-wrapper:nth-child(8) {
+    animation-name: card-drift-8;
+}
+
+/* Individual card animations — each has unique start transform matching the JSX style */
+@keyframes card-drift-1 {
+    0% {
+        transform: rotate(-18deg) scale(0.82) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(-14deg) scale(0.82) translateY(-30px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(-18deg) scale(0.82) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-2 {
+    0% {
+        transform: rotate(14deg) scale(0.65) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(18deg) scale(0.65) translateY(-22px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(14deg) scale(0.65) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-3 {
+    0% {
+        transform: rotate(-6deg) scale(0.95) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(-3deg) scale(0.95) translateY(-35px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(-6deg) scale(0.95) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-4 {
+    0% {
+        transform: rotate(25deg) scale(0.70) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(20deg) scale(0.70) translateY(-20px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(25deg) scale(0.70) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-5 {
+    0% {
+        transform: rotate(-30deg) scale(0.55) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(-26deg) scale(0.55) translateY(-18px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(-30deg) scale(0.55) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-6 {
+    0% {
+        transform: rotate(10deg) scale(0.88) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(14deg) scale(0.88) translateY(-32px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(10deg) scale(0.88) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-7 {
+    0% {
+        transform: rotate(-12deg) scale(0.60) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(-8deg) scale(0.60) translateY(-24px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(-12deg) scale(0.60) translateY(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes card-drift-8 {
+    0% {
+        transform: rotate(32deg) scale(0.75) translateY(0px);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(28deg) scale(0.75) translateY(-26px);
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(32deg) scale(0.75) translateY(0px);
+        opacity: 0;
+    }
+}

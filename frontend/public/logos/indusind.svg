@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 64" role="img" aria-label="IndusInd Bank">
+  <!-- IndusInd stacked stepped bars (brand mark) -->
+  <!-- Bar 1 (top, longest) -->
+  <rect x="6"  y="10" width="28" height="7" rx="3" fill="#006b8f"/>
+  <!-- Bar 2 -->
+  <rect x="6"  y="21" width="22" height="7" rx="3" fill="#006b8f"/>
+  <!-- Bar 3 -->
+  <rect x="6"  y="32" width="28" height="7" rx="3" fill="#006b8f"/>
+  <!-- Bar 4 (bottom) -->
+  <rect x="6"  y="43" width="22" height="7" rx="3" fill="#006b8f"/>
+  <!-- IndusInd Bank text -->
+  <text x="44" y="30" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="17" fill="#006b8f" letter-spacing="-0.2">IndusInd</text>
+  <text x="44" y="50" font-family="Arial, sans-serif" font-weight="700" font-size="11" fill="#006b8f" letter-spacing="3">BANK</text>
+</svg>

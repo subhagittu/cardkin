@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" role="img" aria-label="HDFC Bank">
+  <!-- Red H-bracket mark -->
+  <!-- Left vertical bar -->
+  <rect x="8" y="8" width="10" height="48" rx="2" fill="#e31837"/>
+  <!-- Top horizontal bar -->
+  <rect x="8" y="8" width="36" height="10" rx="2" fill="#e31837"/>
+  <!-- Bottom horizontal bar -->
+  <rect x="8" y="46" width="36" height="10" rx="2" fill="#e31837"/>
+  <!-- Right vertical bar (short, open bracket) -->
+  <rect x="34" y="8" width="10" height="10" rx="2" fill="#e31837"/>
+  <rect x="34" y="46" width="10" height="10" rx="2" fill="#e31837"/>
+  <!-- Crossbar -->
+  <rect x="14" y="29" width="20" height="7" rx="1.5" fill="#e31837"/>
+  <!-- HDFC text -->
+  <text x="58" y="32" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="#003580" letter-spacing="-0.5">HDFC</text>
+  <text x="58" y="52" font-family="Arial, sans-serif" font-weight="700" font-size="13" fill="#003580" letter-spacing="3">BANK</text>
+</svg>

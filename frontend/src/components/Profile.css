@@ -1,0 +1,513 @@
+/* =========================================================
+   Profile Page — CardKin
+   Full-screen desktop-optimized user profile view
+   ========================================================= */
+
+.profile-viewport {
+    min-height: 100vh;
+    padding: 32px 48px 80px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+}
+
+/* --- Back Button --- */
+.profile-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: fit-content;
+}
+
+.profile-back-btn:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--accent-gold);
+}
+
+/* --- Main Grid --- */
+.profile-main-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.profile-left-col,
+.profile-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Shared Card Base --- */
+.profile-card {
+    border-radius: 20px;
+    padding: 28px;
+    box-sizing: border-box;
+}
+
+/* --- Identity Card --- */
+.profile-identity-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.profile-avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #f0a500 100%);
+    color: #000;
+    font-size: 28px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(212, 163, 49, 0.35);
+    letter-spacing: 1px;
+}
+
+.profile-identity-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.profile-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.profile-trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(74, 222, 128, 0.12);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.profile-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.star-gold {
+    color: var(--accent-gold);
+    fill: var(--accent-gold);
+}
+
+.profile-contact-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+}
+
+.profile-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.profile-contact-item svg {
+    color: var(--accent-gold);
+    flex-shrink: 0;
+}
+
+/* --- Section Header --- */
+.profile-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-section-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+    margin: 0;
+}
+
+.profile-section-header svg {
+    color: var(--accent-gold);
+}
+
+.history-count-badge {
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(212, 163, 49, 0.12);
+    color: var(--accent-gold);
+    border: 1px solid rgba(212, 163, 49, 0.25);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* --- Credit Card Chips --- */
+.profile-cards-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.profile-card-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.profile-card-chip {
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chip-card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.3px;
+}
+
+.chip-card-meta {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.profile-empty-state {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 16px 0;
+}
+
+/* --- Add Card Button & Form --- */
+.profile-add-card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(212, 163, 49, 0.1);
+    border: 1px dashed rgba(212, 163, 49, 0.4);
+    color: var(--accent-gold);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-top: 4px;
+}
+
+.profile-add-card-btn:hover {
+    background: rgba(212, 163, 49, 0.18);
+    border-style: solid;
+}
+
+.profile-add-card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+}
+
+.add-form-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+}
+
+.profile-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--bg-input, rgba(255, 255, 255, 0.04));
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 14px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    font-family: inherit;
+}
+
+.profile-input:focus {
+    border-color: var(--accent-gold);
+}
+
+.profile-input option {
+    background: var(--bg-surface, #1a1a2e);
+    color: var(--text-primary);
+}
+
+.add-form-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.cancel-form-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-form-btn:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.add-form-actions .profile-add-card-btn {
+    flex: 1.5;
+    margin-top: 0;
+}
+
+/* --- Purchase History --- */
+.profile-history-card {
+    flex: 1;
+}
+
+.profile-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--bg-input, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 14px 18px;
+    transition: border-color 0.2s ease;
+}
+
+.history-item:hover {
+    border-color: rgba(212, 163, 49, 0.2);
+}
+
+.history-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.history-product {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.history-buyer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.history-buyer {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.history-platform {
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(99, 102, 241, 0.12);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.history-card-used {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-muted, #666);
+}
+
+.history-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.history-amount {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.history-status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.history-status-badge.completed {
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.history-status-badge.pending {
+    background: rgba(251, 191, 36, 0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.history-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-muted, #777);
+}
+
+/* --- Logout Button --- */
+.profile-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profile-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* =========================================================
+   LIGHT MODE OVERRIDES
+   ========================================================= */
+[data-theme="light"] .profile-back-btn {
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #555;
+}
+
+[data-theme="light"] .profile-back-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: #111;
+}
+
+[data-theme="light"] .profile-input {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #111;
+}
+
+[data-theme="light"] .profile-input option {
+    background: #fff;
+    color: #111;
+}
+
+[data-theme="light"] .history-item {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .history-card-used {
+    color: #888;
+}
+
+[data-theme="light"] .history-date {
+    color: #999;
+}
+
+[data-theme="light"] .chip-card-meta {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+   ========================================================= */
+@media (max-width: 900px) {
+    .profile-viewport {
+        padding: 24px 20px 60px;
+    }
+
+    .profile-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .profile-viewport {
+        padding: 16px 12px 48px;
+    }
+
+    .history-item {
+        flex-direction: column;
+    }
+
+    .history-item-right {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}

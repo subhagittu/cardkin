@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 64" role="img" aria-label="ICICI Bank">
+  <!-- Two orange rounded pillars (ICICI brand mark) -->
+  <rect x="6"  y="8" width="16" height="48" rx="8" fill="#f47720"/>
+  <rect x="26" y="8" width="16" height="48" rx="8" fill="#f47720"/>
+  <!-- ICICI text -->
+  <text x="52" y="32" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="#f47720" letter-spacing="-0.3">ICICI</text>
+  <text x="52" y="52" font-family="Arial, sans-serif" font-weight="600" font-size="13" fill="#f47720" letter-spacing="2">Bank</text>
+</svg>

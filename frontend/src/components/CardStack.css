@@ -1,0 +1,262 @@
+.cardstack-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.cardstack-pedestal {
+    position: absolute;
+    bottom: 40px;
+    width: 280px;
+    height: 40px;
+    background: radial-gradient(ellipse at center, rgba(234, 179, 8, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cardstack-container {
+    position: relative;
+    width: 340px;
+    height: 400px;
+    perspective: 1000px;
+    z-index: 10;
+}
+
+.credit-card {
+    position: absolute;
+    width: 340px;
+    height: 206px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden;
+    user-select: none;
+}
+
+.card-hdfc-infinia {
+    top: 0;
+    left: 10px;
+    z-index: 12;
+    transform: rotateZ(-6deg) rotateY(-4deg);
+    background: linear-gradient(135deg, #1a1a1e 0%, #0f0f12 100%);
+}
+
+.card-axis-atlas {
+    top: 100px;
+    left: 20px;
+    z-index: 11;
+    transform: rotateZ(-4deg) rotateY(-6deg);
+    background: linear-gradient(135deg, #141820 0%, #0a0c10 100%);
+}
+
+.card-sbi-cashback {
+    top: 200px;
+    left: 5px;
+    z-index: 10;
+    transform: rotateZ(-3deg) rotateY(-2deg);
+    background: linear-gradient(135deg, #0f1824 0%, #0a1018 100%);
+}
+
+.credit-card.dimmed {
+    opacity: 0.55;
+    transform: scale(0.96) translateY(8px) rotateZ(-4deg);
+    filter: blur(0.5px);
+}
+
+.credit-card.active-hover {
+    z-index: 20 !important;
+    opacity: 1 !important;
+    transform: scale(1.04) translateY(-16px) rotateZ(0deg) rotateY(-4deg);
+    box-shadow: 0 28px 56px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.card-texture {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.texture-gold-mesh {
+    background: radial-gradient(rgba(234, 179, 8, 0.12) 1px, transparent 1px);
+    background-size: 8px 8px;
+}
+
+.texture-cosmic {
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
+}
+
+.texture-cyber-grid {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, transparent 100%);
+}
+
+.card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+}
+
+.bank-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-bank-icon {
+    color: #ffffff;
+}
+
+.card-bank-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.sbi-card-mix {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: none;
+}
+
+.sbi-card-mix .sbi-bold {
+    font-weight: 800;
+    color: #00b0f0;
+}
+
+.sbi-card-mix .sbi-light {
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.sbi-circle-logo-svg {
+    color: #00b0f0;
+}
+
+.card-tier-text {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+}
+
+.tier-gold { color: #d4a853; }
+.tier-white { color: rgba(255, 255, 255, 0.85); }
+.tier-teal { color: #06b6d4; }
+
+.card-mid-row {
+    z-index: 5;
+}
+
+.card-chip {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.card-bottom-row {
+    display: grid;
+    grid-template-areas:
+        "number number"
+        "details network";
+    z-index: 5;
+}
+
+.card-number-group {
+    grid-area: number;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.card-number-group .dots {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.card-number-group .digits {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.card-details-group {
+    grid-area: details;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.details-label {
+    font-size: 7px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.05em;
+}
+
+.details-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.card-network-logo-wrap {
+    grid-area: network;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rupay-logo-img {
+    height: 16px;
+    background: #fff;
+    border-radius: 3px;
+    padding: 2px 5px;
+}
+
+.visa-logo-img {
+    height: 13px;
+    background: #fff;
+    border-radius: 3px;
+    padding: 3px 5px;
+}
+
+[data-theme="light"] .credit-card {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 1024px) {
+    .cardstack-wrapper {
+        max-width: 100%;
+        height: 440px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cardstack-container {
+        width: 290px;
+        height: 360px;
+    }
+
+    .credit-card {
+        width: 290px;
+        height: 175px;
+        padding: 18px;
+    }
+
+    .card-axis-atlas { top: 85px; }
+    .card-sbi-cashback { top: 170px; }
+}

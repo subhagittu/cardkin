@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" role="img" aria-label="SBI Card">
+  <!-- SBI circular keyhole emblem -->
+  <!-- Outer blue circle -->
+  <circle cx="32" cy="32" r="28" fill="#23388a"/>
+  <!-- White inner circle -->
+  <circle cx="32" cy="28" r="16" fill="white"/>
+  <!-- Small blue dot (keyhole top circle) -->
+  <circle cx="32" cy="26" r="8" fill="#23388a"/>
+  <!-- Keyhole stem (white rectangle pointing up into circle) -->
+  <rect x="27" y="30" width="10" height="18" rx="2" fill="white"/>
+  <!-- Inner white ring gap -->
+  <circle cx="32" cy="26" r="4" fill="white"/>
+  <!-- SBI text -->
+  <text x="70" y="30" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="24" fill="#23388a">SBI</text>
+  <text x="70" y="50" font-family="Arial, sans-serif" font-weight="600" font-size="16" fill="#23388a" font-style="italic">card</text>
+</svg>

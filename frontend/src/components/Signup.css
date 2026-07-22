@@ -1,0 +1,616 @@
+/* ═══════════════════════════════════════════════
+   SIGNUP PAGE — Full-page overlay on animation
+   ═══════════════════════════════════════════════ */
+
+/* Full-page wrapper — floats above the canvas animation */
+.su-page {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    /* No opaque background — the canvas shows through */
+}
+
+/* ── TOP HEADER ─────────────────────────────── */
+.su-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: transparent;
+    flex-shrink: 0;
+}
+
+.su-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.su-logo-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: var(--accent, #eab308);
+    color: #000;
+    font-size: 13px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+}
+
+.su-logo-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary, #fafafa);
+    letter-spacing: -0.5px;
+}
+
+.su-header-auth {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.su-header-auth-text {
+    font-size: 13.5px;
+    color: var(--text-secondary, #a1a1aa);
+}
+
+.su-header-login-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-primary, #fafafa);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 7px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.su-header-login-btn:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── BODY: two-column flex ──────────────────── */
+.su-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 24px 80px 48px;
+    gap: 0;
+    overflow-y: auto;
+}
+
+/* ── LEFT: hero branding (transparent) ─────── */
+.su-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 48px;
+}
+
+.su-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(234, 179, 8, 0.35);
+    background: rgba(234, 179, 8, 0.08);
+    color: var(--accent, #eab308);
+    font-size: 12.5px;
+    font-weight: 600;
+    width: fit-content;
+    margin-bottom: 28px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.su-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent, #eab308);
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(234, 179, 8, 0.7);
+    animation: su-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes su-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.55;
+        transform: scale(0.8);
+    }
+}
+
+.su-hero-headline {
+    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: var(--text-primary, #fafafa);
+    margin-bottom: 16px;
+}
+
+.su-hero-accent {
+    color: var(--accent, #eab308);
+}
+
+.su-hero-sub {
+    font-size: 15px;
+    color: var(--text-secondary, #a1a1aa);
+    line-height: 1.6;
+    max-width: 360px;
+}
+
+/* ── RIGHT: Glass card ──────────────────────── */
+.su-right {
+    flex-shrink: 0;
+    width: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.su-card {
+    width: 100%;
+    background: rgba(14, 14, 18, 0.82);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.su-card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary, #fafafa);
+    letter-spacing: -0.04em;
+    margin-bottom: 4px;
+}
+
+.su-card-sub {
+    font-size: 13px;
+    color: var(--text-secondary, #a1a1aa);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+/* ── GOOGLE BUTTON ──────────────────────────── */
+.su-google-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: var(--text-primary, #fafafa);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
+}
+
+.su-google-btn:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+}
+
+/* ── DIVIDER ────────────────────────────────── */
+.su-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0;
+}
+
+.su-divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.su-divider-text {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted, #71717a);
+    white-space: nowrap;
+}
+
+/* ── FORM ───────────────────────────────────── */
+.su-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.su-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.su-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-secondary, #a1a1aa);
+    letter-spacing: 0.1px;
+}
+
+.su-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.su-input-icon {
+    position: absolute;
+    left: 13px;
+    color: rgba(255, 255, 255, 0.38);
+    pointer-events: none;
+    flex-shrink: 0;
+    transition: color 0.18s ease;
+}
+
+.su-input {
+    width: 100%;
+    padding: 12px 40px 12px 39px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.su-input::placeholder {
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.su-input:focus {
+    outline: none;
+    border-color: var(--accent, #eab308);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.14);
+}
+
+.su-input-wrap:focus-within .su-input-icon {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.su-input-wrap.error .su-input {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.04);
+}
+
+.su-input-wrap.error .su-input:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.14);
+}
+
+.su-eye-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.38);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+}
+
+.su-eye-btn:hover {
+    color: var(--text-primary, #fafafa);
+}
+
+/* ── TERMS ──────────────────────────────────── */
+.su-terms-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: -2px;
+}
+
+.su-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.su-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.su-checkbox-box {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 4px;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.15s ease;
+}
+
+.su-checkbox-label:hover .su-checkbox-box {
+    border-color: var(--accent, #eab308);
+}
+
+.su-checkbox-input:checked~.su-checkbox-box {
+    background: var(--accent, #eab308);
+    border-color: var(--accent, #eab308);
+}
+
+.su-checkbox-box::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.su-checkbox-input:checked~.su-checkbox-box::after {
+    display: block;
+}
+
+.su-terms-text {
+    font-size: 12.5px;
+    color: var(--text-secondary, #a1a1aa);
+    line-height: 1.45;
+}
+
+.su-link {
+    color: var(--accent, #eab308);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.su-link:hover {
+    text-decoration: underline;
+}
+
+/* ── ERROR MSG ──────────────────────────────── */
+.su-error-msg {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #f87171;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ── PRIMARY BUTTON ─────────────────────────── */
+.su-btn-primary {
+    width: 100%;
+    padding: 13px 20px;
+    background: var(--accent, #eab308);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 18px rgba(234, 179, 8, 0.25);
+    margin-top: 4px;
+}
+
+.su-btn-primary:hover {
+    background: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(234, 179, 8, 0.42);
+}
+
+.su-btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ── SUCCESS SCREEN ─────────────────────────── */
+.su-success-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.su-success-card {
+    background: rgba(14, 14, 18, 0.82);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 48px 40px;
+    text-align: center;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65);
+    max-width: 420px;
+    width: 100%;
+}
+
+.su-success-icon {
+    display: flex;
+    justify-content: center;
+    color: var(--accent, #eab308);
+    margin-bottom: 24px;
+    animation: su-scale-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes su-scale-up {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.su-success-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-primary, #fafafa);
+    margin-bottom: 12px;
+}
+
+.su-success-desc {
+    font-size: 14.5px;
+    color: var(--text-secondary, #a1a1aa);
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.su-success-desc strong {
+    color: var(--text-primary, #fafafa);
+}
+
+/* ── LIGHT MODE OVERRIDES ───────────────────── */
+[data-theme="light"] .su-header-login-btn {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-primary, #1a1a1a);
+}
+
+[data-theme="light"] .su-header-login-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .su-card {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .su-google-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: var(--text-primary, #1a1a1a);
+}
+
+[data-theme="light"] .su-google-btn:hover {
+    background: rgba(0, 0, 0, 0.07);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .su-input {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .su-input::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .su-input:focus {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .su-input-icon {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .su-eye-btn {
+    color: rgba(0, 0, 0, 0.38);
+}
+
+[data-theme="light"] .su-eye-btn:hover {
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .su-divider-line {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .su-checkbox-box {
+    border-color: rgba(0, 0, 0, 0.18);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .su-success-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 900px) {
+    .su-body {
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 24px 48px;
+        gap: 40px;
+    }
+
+    .su-left {
+        padding-right: 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    .su-hero-sub {
+        max-width: 100%;
+    }
+
+    .su-right {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .su-header {
+        padding: 16px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .su-card {
+        padding: 28px 20px;
+    }
+
+    .su-body {
+        padding: 16px 16px 40px;
+    }
+}
