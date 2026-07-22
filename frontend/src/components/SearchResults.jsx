@@ -1,389 +1,307 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, ArrowLeft, Search, CheckCircle, MessageSquare, Loader, Sparkles } from 'lucide-react';
+import { ShieldCheck, ArrowLeft, Search, CheckCircle, MessageSquare, Loader, Sparkles, CreditCard, Wifi, Lock, Activity } from 'lucide-react';
 import './SearchResults.css';
 
 export default function SearchResults({ searchQuery, onBack }) {
     const [searching, setSearching] = useState(true);
     const [progress, setProgress] = useState(0);
-    const [selectedCardholder, setSelectedCardholder] = useState(null);
+    const [logEntries, setLogEntries] = useState([]);
+    const [activeMetric, setActiveMetric] = useState(0);
 
-    // Modal Form States
-    const [productName, setProductName] = useState('');
-    const [amount, setAmount] = useState('');
-    const [platform, setPlatform] = useState('Amazon');
+    // Full mock cardholder registry — filtered by search query
+    const allCardholders = [
+        { id: 1, name: "Rohan Sharma", phone: "+91 98765 43210", card: "HDFC Infinia Metal", rating: 4.9, matches: 46, initials: "RS" },
+        { id: 2, name: "Priya Kapoor", phone: "+91 91234 56789", card: "HDFC Infinia Metal", rating: 4.8, matches: 31, initials: "PK" },
+        { id: 3, name: "Sneha Reddy", phone: "+91 81234 56789", card: "ICICI Sapphiro", rating: 4.8, matches: 32, initials: "SR" },
+        { id: 4, name: "Vikram Malhotra", phone: "+91 70123 45678", card: "SBI Aurum", rating: 4.7, matches: 18, initials: "VM" },
+        { id: 5, name: "Anjali Mehta", phone: "+91 99887 76655", card: "Axis Magnus", rating: 4.6, matches: 22, initials: "AM" },
+        { id: 6, name: "Karthik Iyer", phone: "+91 88776 65544", card: "ICICI Sapphiro", rating: 4.9, matches: 57, initials: "KI" },
+        { id: 7, name: "Deepa Nair", phone: "+91 77665 54433", card: "Amex Platinum", rating: 4.7, matches: 14, initials: "DN" },
+        { id: 8, name: "Rahul Joshi", phone: "+91 66554 43322", card: "HDFC Infinia Metal", rating: 4.5, matches: 9, initials: "RJ" },
+        { id: 9, name: "Meera Singh", phone: "+91 55443 32211", card: "Axis Magnus", rating: 4.8, matches: 38, initials: "MS" },
+        { id: 10, name: "Arjun Patel", phone: "+91 44332 21100", card: "SBI Aurum", rating: 4.6, matches: 11, initials: "AP" },
+        { id: 11, name: "Nisha Gupta", phone: "+91 33221 10099", card: "Kotak Royale Signature", rating: 4.7, matches: 19, initials: "NG" },
+        { id: 12, name: "Suresh Pillai", phone: "+91 22110 09988", card: "Yes First Exclusive", rating: 4.5, matches: 7, initials: "SP" },
+    ];
 
-    // Payment States
-    const [paymentStage, setPaymentStage] = useState('form'); // 'form', 'upi-select', 'processing', 'success'
-    const [selectedUpiApp, setSelectedUpiApp] = useState('');
+    // Filter cardholders whose card name matches the search query (case-insensitive)
+    const cardholders = allCardholders.filter(ch =>
+        ch.card.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-    // Mock Cardholder Database
-    const [cardholders, setCardholders] = useState([
-        {
-            id: 1,
-            name: "Rohan Sharma",
-            phone: "+91 98765 43210",
-            card: "HDFC Infinia Metal",
-            distance: "1.2 km away",
-            rating: 4.9,
-            matches: 46,
-            unlocked: false,
-            initials: "RS"
-        },
-        {
-            id: 2,
-            name: "Sneha Reddy",
-            phone: "+91 81234 56789",
-            card: "ICICI Sapphiro",
-            distance: "2.5 km away",
-            rating: 4.8,
-            matches: 32,
-            unlocked: false,
-            initials: "SR"
-        },
-        {
-            id: 3,
-            name: "Vikram Malhotra",
-            phone: "+91 70123 45678",
-            card: "SBI Aurum",
-            distance: "3.8 km away",
-            rating: 4.7,
-            matches: 18,
-            unlocked: false,
-            initials: "VM"
-        }
-    ]);
+    const statusMessages = [
+        { time: '00:00', msg: 'Initializing secure network scan...', type: 'info' },
+        { time: '00:01', msg: `Query indexed: "${searchQuery}"`, type: 'success' },
+        { time: '00:02', msg: 'Authenticating cardholder registry...', type: 'info' },
+        { time: '00:03', msg: 'Encrypting location handshake (AES-256)...', type: 'info' },
+        { time: '00:04', msg: 'Proximity nodes discovered: 12', type: 'success' },
+        { time: '00:05', msg: 'Filtering by card category & reward tier...', type: 'info' },
+        { time: '00:06', msg: 'Verified matches found: 3', type: 'success' },
+        { time: '00:07', msg: 'Building secure contact index...', type: 'info' },
+        { time: '00:08', msg: 'Scan complete. Results ready.', type: 'success' },
+    ];
 
-    // 3-second Radar Scan simulation
+    // Progress bar simulation
     useEffect(() => {
         const interval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(interval);
-                    setTimeout(() => setSearching(false), 300);
+                    setTimeout(() => setSearching(false), 600);
                     return 100;
                 }
-                return prev + 4;
+                return prev + 2;
             });
-        }, 120);
-
+        }, 60);
         return () => clearInterval(interval);
     }, []);
 
-    const handleUnlockRequest = (cardholder) => {
-        setSelectedCardholder(cardholder);
-        setPaymentStage('form');
-        setProductName('');
-        setAmount('');
-        setPlatform('Amazon');
-    };
+    // Progressive log entries
+    useEffect(() => {
+        if (!searching) return;
+        const timers = statusMessages.map((entry, i) =>
+            setTimeout(() => {
+                setLogEntries(prev => [...prev, entry]);
+            }, i * 450)
+        );
+        return () => timers.forEach(clearTimeout);
+    }, [searching]);
 
-    // Calculate dynamic 0.5% unlock fee (min Rs 49)
-    const calculateFee = () => {
-        const amt = parseFloat(amount) || 0;
-        return Math.max(49, Math.round(amt * 0.005));
-    };
+    // Cycle active metric
+    useEffect(() => {
+        const interval = setInterval(() => setActiveMetric(m => (m + 1) % 4), 800);
+        return () => clearInterval(interval);
+    }, []);
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        if (!productName || !amount) {
-            alert('Please populate product details and transaction value.');
-            return;
-        }
-        setPaymentStage('upi-select');
-    };
-
-    const handlePayClick = (upiApp) => {
-        setSelectedUpiApp(upiApp);
-        setPaymentStage('processing');
-
-        // Simulating 2-second processing time
-        setTimeout(() => {
-            setPaymentStage('success');
-
-            // Mark the selected cardholder as unlocked in local state
-            setCardholders(prev => prev.map(ch =>
-                ch.id === selectedCardholder.id ? { ...ch, unlocked: true } : ch
-            ));
-        }, 2000);
-    };
-
-    const handleCloseModal = () => {
-        setSelectedCardholder(null);
-        setPaymentStage('form');
-    };
+    const handleCloseModal = () => { };
 
     return (
         <div className="search-results-viewport animate-fade-in">
-            {/* Nav Back Header */}
-            <div className="search-results-nav">
-                <button className="back-btn" onClick={onBack}>
-                    <ArrowLeft size={16} />
-                    <span>Back to Home</span>
-                </button>
-                <div className="search-badge">
-                    <Search size={14} />
-                    <span>Query: "{searchQuery}"</span>
-                </div>
-            </div>
 
             {searching ? (
-                /* RADAR LOADER SCREEN */
-                <div className="radar-loader-container">
-                    <div className="desktop-radar-card glass">
-                        <div className="radar-left-side">
-                            {/* Scanning Animation */}
-                            <div className="radar-circles-box">
-                                <div className="conic-scanner-sweep"></div>
-                                <div className="radar-circle circle-1"></div>
-                                <div className="radar-circle circle-2"></div>
-                                <div className="radar-circle circle-3"></div>
-                                <div className="radar-circle circle-4"></div>
+                /* ENTERPRISE SCANNER SCREEN */
+                <div className="biz-scan-wrapper">
+                    {/* Top Status Bar */}
+                    <div className="biz-topbar">
+                        <div className="biz-topbar-left">
+                            <span className="biz-live-dot"></span>
+                            <span className="biz-live-label">LIVE SCAN</span>
+                        </div>
+                        <div className="biz-topbar-center">
+                            <span className="biz-topbar-title">CardKin Network Intelligence</span>
+                        </div>
+                        <div className="biz-topbar-right">
+                            <Wifi size={13} className="biz-wifi-icon" />
+                            <span>ENCRYPTED</span>
+                            <Lock size={12} />
+                        </div>
+                    </div>
 
-                                {/* Central user profile bubble */}
-                                <div className="radar-avatar center-node pulse-node">
-                                    <span className="avatar-initials">YOU</span>
-                                </div>
+                    {/* Main 3-Column Layout */}
+                    <div className="biz-main-grid">
 
-                                {/* Orbiting cardholder elements */}
-                                <div className="radar-avatar orbit-1">
-                                    <div className="orbit-avatar-dot offset-dot-1"></div>
+                        {/* LEFT: Animated Credit Card Scanner */}
+                        <div className="biz-card-scanner-col">
+                            <p className="biz-col-label">SCANNING CARD NETWORK</p>
+                            <div className="biz-card-scene">
+                                {/* Animated credit card */}
+                                <div className="biz-credit-card">
+                                    <div className="biz-card-chip"></div>
+                                    <div className="biz-card-wave-lines">
+                                        <div className="biz-wave-line w1"></div>
+                                        <div className="biz-wave-line w2"></div>
+                                        <div className="biz-wave-line w3"></div>
+                                    </div>
+                                    <div className="biz-card-number">•••• •••• •••• ••••</div>
+                                    <div className="biz-card-bottom">
+                                        <span>CARDHOLDER</span>
+                                        <span>{searchQuery.toUpperCase()}</span>
+                                    </div>
+                                    {/* Scan beam */}
+                                    <div className="biz-scan-beam"></div>
                                 </div>
-                                <div className="radar-avatar orbit-2">
-                                    <div className="orbit-avatar-dot offset-dot-2"></div>
+                                {/* Corner brackets */}
+                                <div className="biz-bracket tl"></div>
+                                <div className="biz-bracket tr"></div>
+                                <div className="biz-bracket bl"></div>
+                                <div className="biz-bracket br"></div>
+                            </div>
+                            {/* Metrics row below card */}
+                            <div className="biz-metrics-row">
+                                {[
+                                    { label: 'NODES', value: '247' },
+                                    { label: 'VERIFIED', value: '3' },
+                                    { label: 'PROXIMITY', value: '5km' },
+                                    { label: 'ENCRYPTION', value: '256' },
+                                ].map((m, i) => (
+                                    <div key={i} className={`biz-metric-item ${activeMetric === i ? 'biz-metric-active' : ''}`}>
+                                        <span className="biz-metric-val">{m.value}</span>
+                                        <span className="biz-metric-lbl">{m.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* CENTER: Progress & Status Log */}
+                        <div className="biz-status-col">
+                            <p className="biz-col-label">SEARCH PROTOCOL</p>
+                            <div className="biz-progress-block">
+                                <div className="biz-progress-header">
+                                    <span>Search Progress</span>
+                                    <span className="biz-progress-pct">{Math.round(progress)}%</span>
                                 </div>
-                                <div className="radar-avatar orbit-3">
-                                    <div className="orbit-avatar-dot offset-dot-3"></div>
+                                <div className="biz-progress-track">
+                                    <div className="biz-progress-fill" style={{ width: `${progress}%` }}></div>
+                                </div>
+                                <div className="biz-progress-stages">
+                                    {['INDEX', 'AUTH', 'SCAN', 'MATCH', 'READY'].map((s, i) => (
+                                        <span key={s} className={`biz-stage-chip ${progress >= (i + 1) * 20 ? 'biz-stage-done' : ''}`}>{s}</span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="biz-log-panel">
+                                <div className="biz-log-header">
+                                    <Activity size={12} />
+                                    <span>ACTIVITY LOG</span>
+                                </div>
+                                <div className="biz-log-entries">
+                                    {logEntries.map((entry, i) => (
+                                        <div key={i} className={`biz-log-row biz-log-${entry.type} biz-log-appear`}>
+                                            <span className="biz-log-time">{entry.time}</span>
+                                            <span className="biz-log-dot"></span>
+                                            <span className="biz-log-msg">{entry.msg}</span>
+                                        </div>
+                                    ))}
+                                    <div className="biz-log-cursor"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="radar-right-side">
-                            <span className="buyer-pill-tag">For Buyer</span>
-                            <h3 className="radar-title">Real time shopping</h3>
-
-                            {/* Captions */}
-                            <div className="radar-caption-panel">
-                                <h4>Finding the right cardholder</h4>
-                                <p>Please wait while we search the network for close connections that carry your requested cards.</p>
-
-                                {/* Progress Bar */}
-                                <div className="linear-progress-track">
-                                    <div className="linear-progress-fill" style={{ width: `${progress}%` }}></div>
+                        {/* RIGHT: Data stream */}
+                        <div className="biz-datastream-col">
+                            <p className="biz-col-label">DATA STREAM</p>
+                            <div className="biz-datastream-box">
+                                <div className="biz-stream-inner">
+                                    {Array.from({ length: 22 }).map((_, i) => (
+                                        <div key={i} className="biz-stream-row" style={{ animationDelay: `${i * 0.18}s` }}>
+                                            <span className="biz-stream-key">{['HDFC', 'ICICI', 'SBI', 'AXIS', 'YES', 'AMEX', 'KOTAK', 'CITI'][i % 8]}_</span>
+                                            <span className="biz-stream-val">{Math.random().toString(36).substring(2, 8).toUpperCase()}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <span className="progress-percent-lbl">{Math.round(progress)}% scanned</span>
+                            </div>
+                            <div className="biz-security-badge">
+                                <Lock size={12} />
+                                <span>AES-256 Encrypted</span>
                             </div>
                         </div>
                     </div>
                 </div>
             ) : (
-                /* CARDHOLDERS RESULTS LIST */
-                <div className="results-listing-container">
-                    <div className="results-header">
-                        <h2>Nearest Cardholders Found</h2>
-                        <p>We found {cardholders.length} cardholders carrying keys matching <strong>"{searchQuery}"</strong> near your location.</p>
+                /* ENTERPRISE RESULTS PANEL */
+                <div className="res-outer">
+                    {/* Results summary bar */}
+                    <div className="res-header-bar">
+                        <div className="res-header-left">
+                            <div className="res-live-badge">
+                                <span className="res-live-dot"></span>
+                                <span>LIVE RESULTS</span>
+                            </div>
+                            <h2 className="res-main-title">Cardholder Network</h2>
+                            <p className="res-sub">Displaying verified matches for <span className="res-query-chip">{searchQuery}</span></p>
+                        </div>
+                        <div className="res-header-stats">
+                            <div className="res-stat-card">
+                                <span className="res-stat-num">{cardholders.length}</span>
+                                <span className="res-stat-lbl">Matches Found</span>
+                            </div>
+                            <div className="res-stat-card">
+                                <span className="res-stat-num">Free</span>
+                                <span className="res-stat-lbl">Contact Access</span>
+                            </div>
+                            <div className="res-stat-card res-stat-enc">
+                                <Lock size={14} className="res-enc-icon" />
+                                <span className="res-stat-lbl">AES-256 Encrypted</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="cardholders-grid">
-                        {cardholders.map((ch) => (
-                            <div key={ch.id} className="cardholder-item-box glass">
-                                <div className="cardholder-badge-rating">
-                                    <span className="rating-star">⭐ {ch.rating}</span>
-                                    <span className="matches-count">({ch.matches} matches)</span>
-                                </div>
+                    {/* Cardholder cards */}
+                    <div className="res-cards-list">
+                        {cardholders.length === 0 ? (
+                            <div className="res-empty-state">
+                                <ShieldCheck size={40} className="res-empty-icon" />
+                                <h3>No Matches Found</h3>
+                                <p>No cardholders found with <strong>"{searchQuery}"</strong>. Try a different card name.</p>
+                            </div>
+                        ) : cardholders.map((ch, idx) => (
+                            <div key={ch.id} className="res-ch-card res-ch-unlocked">
+                                {/* Left accent strip */}
+                                <div className="res-card-accent-strip"></div>
 
-                                <div className="cardholder-header-row">
-                                    <div className="ch-avatar-circle">
-                                        {ch.initials}
-                                    </div>
-                                    <div className="ch-names-info">
-                                        {ch.unlocked ? (
-                                            <h3 className="unblurred-name-text">{ch.name}</h3>
-                                        ) : (
-                                            <h3 className="blurred-name-text" title="Lock active until matching approval">{ch.name}</h3>
-                                        )}
-                                        <p className="card-model-text">{ch.card}</p>
-                                    </div>
-                                </div>
+                                {/* Rank badge */}
+                                <div className="res-rank-badge">#{idx + 1}</div>
 
-                                <div className="cardholder-body-row">
-                                    <div className="meta-data-line">
-                                        <span className="meta-label">Distance:</span>
-                                        <span className="meta-val">{ch.distance}</span>
-                                    </div>
-                                    <div className="meta-data-line">
-                                        <span className="meta-label">Contact:</span>
-                                        {ch.unlocked ? (
-                                            <span className="meta-val unblurred-phone">{ch.phone}</span>
-                                        ) : (
-                                            <span className="meta-val blurred-phone">+91 ••••• •••••</span>
-                                        )}
+                                {/* Avatar section */}
+                                <div className="res-avatar-section">
+                                    <div className="res-avatar">{ch.initials}</div>
+                                    <div className="res-match-ring">
+                                        <svg viewBox="0 0 40 40" className="res-ring-svg">
+                                            <circle cx="20" cy="20" r="17" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3" />
+                                            <circle cx="20" cy="20" r="17" fill="none"
+                                                stroke={ch.rating >= 4.8 ? '#f59e0b' : '#10b981'}
+                                                strokeWidth="3"
+                                                strokeDasharray={`${(ch.rating / 5) * 107} 107`}
+                                                strokeLinecap="round"
+                                                transform="rotate(-90 20 20)" />
+                                        </svg>
                                     </div>
                                 </div>
 
-                                <div className="cardholder-action-footer">
-                                    {ch.unlocked ? (
-                                        <a
-                                            href={`https://wa.me/${ch.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(ch.name)},%20I%20matched%20with%20you%20on%20CardKin%20for%20your%20${encodeURIComponent(ch.card)}.`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="btn btn-primary whatsapp-chat-btn"
-                                        >
-                                            <MessageSquare size={16} />
-                                            <span>Chat via WhatsApp</span>
-                                        </a>
-                                    ) : (
-                                        <button
-                                            className="btn btn-primary ch-unlock-trigger-btn"
-                                            onClick={() => handleUnlockRequest(ch)}
-                                        >
-                                            <span>Unlock Contact</span>
-                                        </button>
-                                    )}
+                                {/* Main info */}
+                                <div className="res-ch-main">
+                                    <div className="res-ch-name-row">
+                                        <h3 className="res-ch-name">{ch.name}</h3>
+                                        <span className="res-verified-badge"><ShieldCheck size={11} /> Verified</span>
+                                    </div>
+                                    <p className="res-card-type">{ch.card}</p>
+
+                                    <div className="res-meta-grid">
+                                        <div className="res-meta-item">
+                                            <span className="res-meta-lbl">RATING</span>
+                                            <span className="res-meta-val res-rating-val">★ {ch.rating}</span>
+                                        </div>
+                                        <div className="res-meta-item">
+                                            <span className="res-meta-lbl">MATCHES</span>
+                                            <span className="res-meta-val">{ch.matches}</span>
+                                        </div>
+                                        <div className="res-meta-item">
+                                            <span className="res-meta-lbl">CONTACT</span>
+                                            <span className="res-meta-val res-phone-revealed">{ch.phone}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* CTA — always WhatsApp, no unlock needed */}
+                                <div className="res-cta-section">
+                                    <a
+                                        href={`https://wa.me/${ch.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(ch.name)},%20I%20found%20you%20on%20CardKin%20for%20your%20${encodeURIComponent(ch.card)}.`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="res-cta-btn res-cta-whatsapp"
+                                    >
+                                        <MessageSquare size={15} />
+                                        <span>Chat on WhatsApp</span>
+                                    </a>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            )}
-
-            {/* UNLOCK DIALOG MODAL SIMULATOR */}
-            {selectedCardholder && (
-                <div className="modal-backdrop-layer">
-                    <div className="modal-content-card glass animate-scale-up">
-                        <div className="modal-header-section">
-                            <h3>Unlock {selectedCardholder.unlocked ? "Details" : "Match Request"}</h3>
-                            <button className="modal-close-x" onClick={handleCloseModal}>×</button>
-                        </div>
-
-                        {paymentStage === 'form' && (
-                            <form onSubmit={handleFormSubmit} className="modal-form-body">
-                                <div className="form-summary-card">
-                                    <p className="summary-cardholder">Cardholder matches: <strong>{selectedCardholder.card}</strong></p>
-                                    <p className="summary-rating">Community Rating: ⭐ {selectedCardholder.rating} ({selectedCardholder.matches} Matches)</p>
-                                </div>
-
-                                <div className="form-input-group">
-                                    <label htmlFor="product">Product / Service Name</label>
-                                    <input
-                                        type="text"
-                                        id="product"
-                                        placeholder="e.g., iPhone 15 Pro, Sony Headphones"
-                                        value={productName}
-                                        onChange={(e) => setProductName(e.target.value)}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-input-group">
-                                    <label htmlFor="amount">Transaction Amount (₹)</label>
-                                    <input
-                                        type="number"
-                                        id="amount"
-                                        placeholder="e.g., 25000"
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        min="1"
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-input-group">
-                                    <label htmlFor="platform">Purchase Platform</label>
-                                    <select
-                                        id="platform"
-                                        value={platform}
-                                        onChange={(e) => setPlatform(e.target.value)}
-                                    >
-                                        <option value="Amazon">Amazon.in</option>
-                                        <option value="Flipkart">Flipkart</option>
-                                        <option value="Myntra">Myntra</option>
-                                        <option value="Tata Cliq">Tata CliQ</option>
-                                        <option value="Apple Store">Apple Store</option>
-                                        <option value="Offline Store">Offline Retail</option>
-                                        <option value="Other">Other Platform</option>
-                                    </select>
-                                </div>
-
-                                <div className="fee-disclosure-block">
-                                    <div className="fee-row">
-                                        <span>Community Match Fee (0.5%):</span>
-                                        <strong>₹{calculateFee()}</strong>
-                                    </div>
-                                    <p className="fee-hint">Match fees are verified on platform lock escrows. Safe refund guarantee holds true if matchmaking fails.</p>
-                                </div>
-
-                                <button type="submit" className="btn btn-primary submit-pay-btn">
-                                    <span>Pay ₹{calculateFee()} to Unlock Contact Details</span>
-                                </button>
-                            </form>
-                        )}
-
-                        {paymentStage === 'upi-select' && (
-                            <div className="upi-app-selector">
-                                <h4>Select UPI App to Complete Search Unlock</h4>
-                                <p className="payment-amount-subtitle">Amount to pay: <strong>₹{calculateFee()}</strong></p>
-
-                                <div className="upi-grid-options">
-                                    <button className="upi-opt-btn btn-gpay" onClick={() => handlePayClick('GPay')}>
-                                        <div className="upi-app-logo gpay">G</div>
-                                        <span>Google Pay</span>
-                                    </button>
-                                    <button className="upi-opt-btn btn-phonepe" onClick={() => handlePayClick('PhonePe')}>
-                                        <div className="upi-app-logo phonepe">PE</div>
-                                        <span>PhonePe</span>
-                                    </button>
-                                    <button className="upi-opt-btn btn-paytm" onClick={() => handlePayClick('Paytm')}>
-                                        <div className="upi-app-logo paytm">Pay</div>
-                                        <span>Paytm</span>
-                                    </button>
-                                </div>
-
-                                <button className="btn btn-outline cancel-pay-btn" onClick={() => setPaymentStage('form')}>
-                                    <span>Back</span>
-                                </button>
-                            </div>
-                        )}
-
-                        {paymentStage === 'processing' && (
-                            <div className="payment-processing-loader">
-                                <Loader size={48} className="spinner-loading-icon" />
-                                <h4>Connecting with {selectedUpiApp}...</h4>
-                                <p>Simulating UPI secure gateway authentication. Please do not close this window.</p>
-                            </div>
-                        )}
-
-                        {paymentStage === 'success' && (
-                            <div className="payment-success-window">
-                                <CheckCircle size={64} className="checkmark-success" />
-                                <h4>Payment Successful!</h4>
-                                <p className="success-banner-txt">Verified Match Secured successfully. Contact details unlocked below:</p>
-
-                                <div className="unlocked-contact-card glass">
-                                    <h4>{selectedCardholder.name}</h4>
-                                    <p className="card-model-bold">{selectedCardholder.card}</p>
-                                    <p className="phone-bold-num">{selectedCardholder.phone}</p>
-                                </div>
-
-                                <div className="success-action-dialog">
-                                    <a
-                                        href={`https://wa.me/${selectedCardholder.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(selectedCardholder.name)},%20I%20matched%20with%20you%20on%20CardKin%20for%20your%20${encodeURIComponent(selectedCardholder.card)}.%20Buying%20${encodeURIComponent(productName)}%20worth%20%E2%82%B9${amount}%20on%20${platform}.`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn btn-primary whatsapp-chat-btn"
-                                    >
-                                        <MessageSquare size={16} />
-                                        <span>Start Coordinating on WhatsApp</span>
-                                    </a>
-                                </div>
-
-                                <button className="btn btn-outline done-btn" onClick={handleCloseModal}>
-                                    <span>Back to Results List</span>
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
+   
