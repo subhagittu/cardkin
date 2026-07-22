@@ -1,11 +1,11 @@
-import React from 'react';
-import { Users, Eye, Sparkles, TrendingUp, ShieldCheck, BadgeCheck } from 'lucide-react';
+import React from "react";
+import { Users, Eye, Sparkles, TrendingUp, ShieldCheck, BadgeCheck, Shield, Badge, Icon } from "lucide-react";
 import './About.css';
 
 const VALUES = [
     {
         icon: Users,
-        title: 'Community first',
+        title: 'Community First',
         desc: 'Built for credit card enthusiasts who want to share and optimize rewards together.',
     },
     {
@@ -21,9 +21,9 @@ const VALUES = [
 ];
 
 const METRICS = [
-    { icon: TrendingUp, value: '₹2.4 Cr', label: 'Saved by members' },
-    { icon: ShieldCheck, value: '98%', label: 'Match success rate' },
-    { icon: BadgeCheck, value: '0', label: 'Reported scams' },
+    { icon: TrendingUp, value: 'Value', label: 'Reward Maximization' },
+    { icon: ShieldCheck, value: 'Trust', label: 'Verified & Secure' },
+    { icon: BadgeCheck, value: 'Safety', label: 'Zero Compromise' },
 ];
 
 export default function About() {
@@ -34,12 +34,12 @@ export default function About() {
                     <span className="section-label">About CardKin</span>
                     <h2>Unlocking India's credit card rewards ecosystem</h2>
                     <p className="lead-p">
-                        Billions in lounge access, cashback, and travel perks go unused every year —
-                        locked behind cards most people don't hold.
+                        Billions in lounge access, cashback, and travel perks go unused every year - 
+                        locked behind cards most poeple don't hold.
                     </p>
                     <p className="body-p">
                         CardKin connects people who need specific card benefits with verified holders
-                        who can share them. It's mutual assistance for everyday consumers who want
+                        who can share them. It's mutual assistance for everyday consumers who want 
                         premium perks without the premium annual fees.
                     </p>
 
