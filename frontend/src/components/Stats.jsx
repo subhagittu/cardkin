@@ -2,10 +2,10 @@ import React from 'react';
 import './Stats.css';
 
 const STATS = [
-    { value: '25,000+', label: 'Active members', sub: 'Verified cardholders' },
-    { value: '1,200+', label: 'Matches / month', sub: 'Successful connections' },
-    { value: '4.9★', label: 'Avg. rating', sub: 'Community trust score' },
-    { value: '40+', label: 'Cities covered', sub: 'Pan-India network' },
+    { value: 'Smart', label: 'Network Coverage', sub: 'Expanding rapidly' },
+    { value: 'Instant', label: 'Contact Access', sub: 'Direct communication' },
+    { value: '100%', label: 'Verified Users', sub: 'KYC-backed profiles' },
+    { value: 'Seamless', label: 'Connectivity', sub: 'Match & coordinates' },
 ];
 
 export default function Stats() {
