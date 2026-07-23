@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, CheckCircle2, Phone, ShieldAlert, Eye, EyeOff, Send } from 'lucide-react';
+import { User, Mail, Lock, CheckCircle2, Phone, ShieldAlert, Eye, EyeOff, Send, ShieldCheck, Upload } from 'lucide-react';
 import './Signup.css';
 
 import { supabase } from '../lib/supabaseClient';
@@ -40,33 +40,81 @@ export default function Signup({ onBack, onNavigateHome, onLogin }) {
         e.preventDefault();
         if (validateForm()) {
             setErrors({});
-            setIsLoading(true);
-
-            // Standard Supabase Signup (sends confirmation link email)
-            const { data, error } = await supabase.auth.signUp({
-                email: email.trim(),
-                password: password,
-                options: {
-                    data: {
-                        full_name: fullName.trim(),
-                        phone: mobileNumber.trim()
-                    },
-                    emailRedirectTo: `${window.location.origin}/`
-                }
-            });
-
-            setIsLoading(false);
-            if (error) {
-                setErrors({ submit: error.message });
-            } else if (data?.session) {
-                // Instantly redirect to the landing page / dashboard
-                onNavigateHome({ name: fullName.trim(), email: email.trim() });
-            } else {
-                // If user is successfully queued for confirmation via email
-                setSignUpStep('check-email');
-            }
+            setSignUpStep('kyc');
         }
     };
+
+    const handleKycComplete = async () => {
+        setIsLoading(true);
+
+        // Standard Supabase Signup With KYC metadata
+        const { data, error } = await supabase.auth.signUp({
+            email: email.trim(),
+            password: password,
+            options: {
+                data: {
+                    full_name: fullName.trim(),
+                    phone: mobileNumber.trim(),
+                    kyc_verified: true
+                },
+                emailRedirectTo: `${window.location.origin}/`
+            }
+        });
+
+        setIsLoading(false);
+        if (error) {
+            setErrors({ submit: error.message });
+            setSignUpStep('form');
+        } else if (data?.session) {
+            onNavigateHome({ name: fullName.trim(), email: email.trim(), kyc_verified: true });
+        } else {
+            setSignUpStep('check-email');
+        }
+    };
+
+    if (signUpStep === 'kyc') {
+        return (
+            <div className="su-page">
+                <div className="su-success-wrap">
+                    <div className="su-success-card">
+                        <div className="su-success-icon"><ShieldCheck size={48} color="#eab308" /></div>
+                        <h2 className="su-success-title">Identity Verification</h2>
+                        <p className="su-success-desc">
+                            CardKin is a trusted network. We require a quick photo of your Government ID (e.g. Aadhaar/PAN) to keep scammers out.
+                        </p>
+
+                        <div style={{ position: 'relative', overflow: 'hidden', padding: '30px 20px', border: '2px dashed rgba(255,255,255,0.2)', borderRadius: '12px', marginBottom: '20px', background: 'rgba(255,255,255,0.02)', cursor: 'pointer', transition: 'all 0.2s' }}>
+                            <Upload size={28} style={{ color: 'rgba(255,255,255,0.4)', marginBottom: '8px' }} />
+                            <div style={{ fontSize: '14px', color: '#a1a1aa' }}>Click to upload ID Document</div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={() => {
+                                    // Simulate processing delay for demo
+                                    setIsLoading(true);
+                                    setTimeout(() => handleKycComplete(), 1500);
+                                }}
+                                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
+                            />
+                        </div>
+
+                        {isLoading && (
+                            <p style={{ color: '#eab308', fontSize: '14px', marginBottom: '15px' }}>
+                                Searching records... Verifying identity matches...
+                            </p>
+                        )}
+
+                        <button onClick={handleKycComplete} className="su-btn-primary" disabled={isLoading}>
+                            {isLoading ? 'Processing...' : 'Skip for Demo & Verify'}
+                        </button>
+                        <button onClick={() => setSignUpStep('form')} disabled={isLoading} style={{ background: 'transparent', border: 'none', color: '#71717a', width: '100%', padding: '12px', marginTop: '8px', cursor: 'pointer' }}>
+                            Return to Signup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // SUCCESS SCREEN - Check Email
     if (signUpStep === 'check-email') {
@@ -75,7 +123,7 @@ export default function Signup({ onBack, onNavigateHome, onLogin }) {
                 <div className="su-success-wrap">
                     <div className="su-success-card">
                         <div className="su-success-icon"><Send size={48} color="white" /></div>
-                        <h2 className="su-success-title">Verify your email</h2>
+                        <h2 className="su-success-title">Check your inbox</h2>
                         <p className="su-success-desc">
                             We've sent a secure verification link to <strong>{email}</strong>.
                             <br /><br />
@@ -198,18 +246,19 @@ export default function Signup({ onBack, onNavigateHome, onLogin }) {
                                 {errors.password && <span className="su-field-error"><ShieldAlert size={12} style={{ marginRight: '4px' }} />{errors.password}</span>}
                             </div>
 
-                            <label className="su-checkbox" style={{ marginTop: '8px' }}>
+                            <label className="su-checkbox-label" style={{ marginTop: '8px' }}>
                                 <input
                                     type="checkbox"
+                                    className="su-checkbox-input"
                                     checked={agreeToTerms}
                                     onChange={e => setAgreeToTerms(e.target.checked)}
                                 />
-                                <span className="su-check-mark"></span>
-                                <span className="su-check-text">
-                                    I agree to the <a href="#">Terms of Service</a> & <a href="#">Privacy Policy</a>
+                                <span className="su-checkbox-box"></span>
+                                <span className="su-terms-text">
+                                    I agree to the <a href="#" className="su-link">Terms of Service</a> & <a href="#" className="su-link">Privacy Policy</a>
                                 </span>
                             </label>
-                            {errors.terms && <span className="su-field-error" style={{ marginTop: '-12px' }}>{errors.terms}</span>}
+                            {errors.terms && <span className="su-field-error" style={{ marginTop: '-12px', marginLeft: '27px' }}>{errors.terms}</span>}
 
                             <button type="submit" className="su-btn-primary" disabled={isLoading} style={{ marginTop: '10px' }}>
                                 {isLoading ? 'Sending Verification Link...' : 'Create Account'}

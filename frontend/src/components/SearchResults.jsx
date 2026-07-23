@@ -42,7 +42,8 @@ export default function SearchResults({ searchQuery, onBack }) {
                         card: matchedCard ? `${matchedCard.name} (${matchedCard.bank})` : 'Credit Card',
                         rating: parseFloat(p.rating || 5.0).toFixed(2),
                         matches: p.matches_count || 0,
-                        phone: p.phone || 'Not Provided'
+                        phone: p.phone || 'Not Provided',
+                        kyc_verified: p.kyc_verified || false
                     };
                 });
 
@@ -115,7 +116,10 @@ export default function SearchResults({ searchQuery, onBack }) {
                                     <div className="res-user-details">
                                         <div className="res-name-wrapper">
                                             <h3 className="res-row-name">{ch.name}</h3>
-                                            <span className="res-verified-badge"><ShieldCheck size={12} /> Verified</span>
+                                            <span className="res-verified-badge" style={{ color: ch.kyc_verified ? '#22c55e' : '#71717a' }}>
+                                                <ShieldCheck size={12} color={ch.kyc_verified ? '#22c55e' : '#71717a'} />
+                                                {ch.kyc_verified ? 'KYC Verified' : 'Unverified'}
+                                            </span>
                                         </div>
                                         <span className="res-row-phone">{ch.phone}</span>
                                     </div>

@@ -14,6 +14,7 @@ import About from './components/About';
 import Testimonials from './components/Testimonials';
 import SearchResults from './components/SearchResults';
 import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
 import BackgroundAnimation from './components/BackgroundAnimation';
 import './App.css';
 
@@ -26,7 +27,7 @@ export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const view = params.get('view');
-    return ['landing', 'login', 'signup', 'dashboard', 'search-results', 'profile'].includes(view) ? view : 'landing';
+    return ['landing', 'login', 'signup', 'dashboard', 'search-results', 'profile', 'edit-profile'].includes(view) ? view : 'landing';
   });
   const [activeSection, setActiveSection] = useState('home');
   const [currentSearchQuery, setCurrentSearchQuery] = useState(() => {
@@ -54,16 +55,30 @@ export default function App() {
         const { user } = session;
         const { data, error } = await supabase
           .from('profiles')
-          .select('full_name, email, avatar_url, owned_cards, phone')
+          .select('full_name, email, avatar_url, owned_cards, phone, kyc_verified')
           .eq('id', user.id)
           .single();
 
         if (data) {
           let syncedPhone = data.phone;
-          // IMPORTANT: If phone is missing in public.profiles but available in auth metadata, sync it!
+          let syncedKyc = data.kyc_verified;
+          let needsUpdate = false;
+          let updates = {};
+
           if (!syncedPhone && user.user_metadata?.phone) {
             syncedPhone = user.user_metadata.phone;
-            supabase.from('profiles').update({ phone: syncedPhone }).eq('id', user.id).then();
+            updates.phone = syncedPhone;
+            needsUpdate = true;
+          }
+
+          if (!syncedKyc && user.user_metadata?.kyc_verified) {
+            syncedKyc = true;
+            updates.kyc_verified = true;
+            needsUpdate = true;
+          }
+
+          if (needsUpdate) {
+            supabase.from('profiles').update(updates).eq('id', user.id).then();
           }
 
           setIsLoggedIn(true);
@@ -72,13 +87,14 @@ export default function App() {
             name: data.full_name || user.email,
             email: data.email || user.email,
             avatar: data.avatar_url,
-            phone: syncedPhone
+            phone: syncedPhone,
+            kyc_verified: syncedKyc || false
           });
           setMyCards(data.owned_cards || []);
         } else {
           // Fallback if profile row isn't fully created yet but auth exists
           setIsLoggedIn(true);
-          setUser({ id: user.id, name: user.user_metadata?.full_name || user.email, email: user.email, phone: user.user_metadata?.phone });
+          setUser({ id: user.id, name: user.user_metadata?.full_name || user.email, email: user.email, phone: user.user_metadata?.phone, kyc_verified: user.user_metadata?.kyc_verified || false });
           setMyCards([]);
         }
       };
@@ -292,11 +308,21 @@ export default function App() {
                 myCards={myCards}
                 setMyCards={setMyCards}
                 onBack={() => setCurrentView('landing')}
+                onEditProfile={() => setCurrentView('edit-profile')}
                 onLogout={async () => {
                   await supabase.auth.signOut();
                   setIsLoggedIn(false);
                   setUser(null);
                   setCurrentView('landing');
+                }}
+              />
+            ) : currentView === 'edit-profile' ? (
+              <EditProfile
+                user={user}
+                onBack={() => setCurrentView('profile')}
+                onSave={(updatedFields) => {
+                  setUser(prev => ({ ...prev, ...updatedFields }));
+                  setCurrentView('profile');
                 }}
               />
             ) : (

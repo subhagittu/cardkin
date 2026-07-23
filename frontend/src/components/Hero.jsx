@@ -24,9 +24,9 @@ export default function Hero({ onSignUpClick, onSearch, isLoggedIn }) {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        const query = searchValue.trim() || CATEGORIES.find(c => c.id === activeCategory)?.label;
+        const query = searchValue.trim();
         if (query && onSearch) {
-            onSearch(searchValue.trim() || query);
+            onSearch(query);
         }
     };
 

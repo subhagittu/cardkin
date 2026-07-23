@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Moon, Sun, ArrowRight, Star, LogOut, User } from 'lucide-react';
 import './Header.css';
 
@@ -17,7 +17,17 @@ export default function Header({
 }) {
     const [showDropdown, setShowDropdown] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const dropdownRef = useRef(null);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -83,7 +93,7 @@ export default function Header({
                         </button>
 
                         {isLoggedIn ? (
-                            <div className="header-profile-container">
+                            <div className="header-profile-container" ref={dropdownRef}>
                                 <button
                                     className="header-avatar-btn"
                                     onClick={() => setShowDropdown(!showDropdown)}

@@ -164,7 +164,7 @@
 /* ── RIGHT: Glass card ──────────────────────── */
 .su-right {
     flex-shrink: 0;
-    width: 420px;
+    width: 380px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,9 +175,9 @@
     background: rgba(14, 14, 18, 0.82);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 36px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 32px 28px;
     box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
 }
 
@@ -343,10 +343,11 @@
 
 .su-checkbox-label {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
     cursor: pointer;
     user-select: none;
+    padding: 4px 0;
 }
 
 .su-checkbox-input {
@@ -357,38 +358,53 @@
 }
 
 .su-checkbox-box {
-    display: inline-block;
-    width: 17px;
-    height: 17px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 5px;
     position: relative;
     flex-shrink: 0;
-    margin-top: 1px;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .su-checkbox-label:hover .su-checkbox-box {
     border-color: var(--accent, #eab308);
+    background: rgba(234, 179, 8, 0.1);
 }
 
 .su-checkbox-input:checked~.su-checkbox-box {
     background: var(--accent, #eab308);
     border-color: var(--accent, #eab308);
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
 }
 
 .su-checkbox-box::after {
     content: "";
     position: absolute;
     display: none;
-    left: 5px;
-    top: 2px;
-    width: 4px;
-    height: 8px;
+    width: 5px;
+    height: 10px;
+    margin-bottom: 2px;
     border: solid #000;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
+    animation: su-check-anim 0.2s forwards;
+}
+
+@keyframes su-check-anim {
+    0% {
+        transform: rotate(45deg) scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotate(45deg) scale(1);
+        opacity: 1;
+    }
 }
 
 .su-checkbox-input:checked~.su-checkbox-box::after {
@@ -396,19 +412,26 @@
 }
 
 .su-terms-text {
-    font-size: 12.5px;
+    font-size: 13px;
     color: var(--text-secondary, #a1a1aa);
-    line-height: 1.45;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+}
+
+.su-checkbox-label:hover .su-terms-text {
+    color: var(--text-primary, #fafafa);
 }
 
 .su-link {
     color: var(--accent, #eab308);
     text-decoration: none;
     font-weight: 500;
+    transition: opacity 0.2s ease;
 }
 
 .su-link:hover {
     text-decoration: underline;
+    opacity: 0.8;
 }
 
 /* ── ERROR MSG ──────────────────────────────── */
