@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, ShieldAlert } from 'lucide-react';
 import './Login.css';
 
+import { supabase } from '../lib/supabaseClient';
+
 export default function Login({ onBack, onLoginSuccess, onNavigateSignup }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -9,7 +11,19 @@ export default function Login({ onBack, onLoginSuccess, onNavigateSignup }) {
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
-    const handleSubmit = (e) => {
+    const handleGoogleLogin = async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/`,
+            }
+        });
+        if (error) {
+            console.error('Error logging in with Google:', error.message);
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errs = {};
 
@@ -22,7 +36,15 @@ export default function Login({ onBack, onLoginSuccess, onNavigateSignup }) {
         setErrors(errs);
 
         if (Object.keys(errs).length === 0) {
-            onLoginSuccess({ name: 'Rohan Sharma', email });
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+            if (error) {
+                setErrors({ email: error.message });
+            } else {
+                onLoginSuccess({ name: data.user.user_metadata.full_name || data.user.email, email: data.user.email });
+            }
         }
     };
 
@@ -65,7 +87,7 @@ export default function Login({ onBack, onLoginSuccess, onNavigateSignup }) {
                         <p className="li-card-sub">Good to see you again.</p>
 
                         {/* Google OAuth */}
-                        <button type="button" className="li-google-btn">
+                        <button type="button" className="li-google-btn" onClick={handleGoogleLogin}>
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z" fill="#4285F4" />
                                 <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18Z" fill="#34A853" />

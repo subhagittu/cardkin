@@ -5,7 +5,7 @@ const STATS = [
     { value: 'Smart', label: 'Network Coverage', sub: 'Expanding rapidly' },
     { value: 'Instant', label: 'Contact Access', sub: 'Direct communication' },
     { value: '100%', label: 'Verified Users', sub: 'KYC-backed profiles' },
-    { value: 'Seamless', label: 'Connectivity', sub: 'Match & coordinates' },
+    { value: 'Seamless', label: 'Connectivity', sub: 'Match & coordinate' },
 ];
 
 export default function Stats() {

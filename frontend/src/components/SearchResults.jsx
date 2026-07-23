@@ -1,34 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { ShieldCheck, ArrowLeft, Search, CheckCircle, MessageSquare, Loader, Sparkles, CreditCard, Wifi, Lock, Activity } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import { ShieldCheck, ArrowLeft, Search, CheckCircle, MessageSquare, Loader, Sparkles, CreditCard, Wifi, Lock, Activity } from 'lucide-react';
 import './SearchResults.css';
 
 export default function SearchResults({ searchQuery, onBack }) {
-    const [ searching, setSearching ] = useState(true);
-    const [ progress, setProgress ] = useState(0);
-    const [ logEntries, setLogEntries ] = useState([]);
-    const [ activeMetric, setActiveMetric ] = useState(0);
+    const [searching, setSearching] = useState(true);
+    const [progress, setProgress] = useState(0);
+    const [logEntries, setLogEntries] = useState([]);
+    const [activeMetric, setActiveMetric] = useState(0);
 
-    const [ cardholders, setCardholders ] = useState([]);
+    const [cardholders, setCardholders] = useState([]);
 
     useEffect(() => {
         let isMounted = true;
 
         const fetchResults = async () => {
-            const { supabase } = await import('../lib/supabaseclient')
+            const { supabase } = await import('../lib/supabaseClient');
             const { data, error } = await supabase.from('profiles').select('*');
-            if(data && isMounted) {
+            if (data && isMounted) {
                 const query = (searchQuery || '').toLowerCase();
                 const matched = data.filter(p => {
-                    if(!p.owned_cards || !Array.isArray(p.owned_cards))
-                        return false;
-                    return p.owned_cards.some(c => 
-                        (c.name && c.name.toLowerCase().includes(query)) || 
+                    if (!p.owned_cards || !Array.isArray(p.owned_cards)) return false;
+                    return p.owned_cards.some(c =>
+                        (c.name && c.name.toLowerCase().includes(query)) ||
                         (c.bank && c.bank.toLowerCase().includes(query))
                     );
                 });
 
                 const formatted = matched.map(p => {
-                    const matchedCard = p.owned_cards.find(c => 
+                    const matchedCard = p.owned_cards.find(c =>
                         (c.name && c.name.toLowerCase().includes(query)) ||
                         (c.bank && c.bank.toLowerCase().includes(query))
                     );
@@ -55,8 +54,7 @@ export default function SearchResults({ searchQuery, onBack }) {
         fetchResults();
 
         const timeout = setTimeout(() => {
-            if(isMounted)
-                setSearching(false);
+            if (isMounted) setSearching(false);
         }, 1500);
 
         return () => {
@@ -81,9 +79,8 @@ export default function SearchResults({ searchQuery, onBack }) {
                     <div className="res-header-bar">
                         <div className="res-header-left">
                             <div className="res-live-badge">
-                                <span className="res-live-dot">
-                                    <span>LIVE RESULTS</span>
-                                </span>
+                                <span className="res-live-dot"></span>
+                                <span>LIVE RESULTS</span>
                             </div>
                             <h2 className="res-main-title">Search Results</h2>
                             <p className="res-sub">Showing all registered holders of <span className="res-query-chip">{searchQuery}</span></p>
@@ -100,13 +97,13 @@ export default function SearchResults({ searchQuery, onBack }) {
                         </div>
                     </div>
 
-                    {/* Cardholders cards */}
-                    <div className="res-card-list">
+                    {/* Cardholder cards */}
+                    <div className="res-cards-list">
                         {cardholders.length === 0 ? (
                             <div className="res-empty-state">
                                 <ShieldCheck size={40} className="res-empty-icon" />
                                 <h3>No Matches Found</h3>
-                                <p>No Cardholders found with <strong>"{searchQuery}"</strong>. Try a different card name.</p>
+                                <p>No cardholders found with <strong>"{searchQuery}"</strong>. Try a different card name.</p>
                             </div>
                         ) : cardholders.map((ch, idx) => (
                             <div key={ch.id} className="res-ch-row">
@@ -118,7 +115,7 @@ export default function SearchResults({ searchQuery, onBack }) {
                                     <div className="res-user-details">
                                         <div className="res-name-wrapper">
                                             <h3 className="res-row-name">{ch.name}</h3>
-                                            <span className="res-verified-badge"><ShieldCheck size={12} />Verified</span>
+                                            <span className="res-verified-badge"><ShieldCheck size={12} /> Verified</span>
                                         </div>
                                         <span className="res-row-phone">{ch.phone}</span>
                                     </div>
@@ -134,7 +131,7 @@ export default function SearchResults({ searchQuery, onBack }) {
                                 <div className="res-row-col res-row-stats">
                                     <div className="res-stat-mini">
                                         <span className="res-row-label">Trust Score</span>
-                                        <span className="res-row-value res-rating-val">{ch.rating}</span>
+                                        <span className="res-row-value res-rating-val">★ {ch.rating}</span>
                                     </div>
                                     <div className="res-stat-mini">
                                         <span className="res-row-label">Total Matches</span>
@@ -145,7 +142,7 @@ export default function SearchResults({ searchQuery, onBack }) {
                                 {/* Col 4: Action */}
                                 <div className="res-row-col res-row-action">
                                     <a
-                                        href={`https://wa.me/${ch.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(ch.name)}, %20I%20found%20you%20on%20CardKin%20for%20your%20${encodeURIComponent(ch.card)}.`}
+                                        href={`https://wa.me/${ch.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(ch.name)},%20I%20found%20you%20on%20CardKin%20for%20your%20${encodeURIComponent(ch.card)}.`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="res-row-btn res-cta-whatsapp"
@@ -158,8 +155,8 @@ export default function SearchResults({ searchQuery, onBack }) {
                         ))}
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
-   

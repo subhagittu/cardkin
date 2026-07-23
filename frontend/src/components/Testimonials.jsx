@@ -1,12 +1,13 @@
-import React from "react";
-import { Plane, ShoppingBag, Ticket } from "lucide-react";
+import React from 'react';
+import { Plane, ShoppingBag, Ticket } from 'lucide-react';
+import './Testimonials.css';
 
 const USE_CASES = [
     {
         title: 'Airport Lounge Access',
         icon: Plane,
         text: 'Need lounge access for your next trip? Connect with cardholders who have complimentary access and fly in comfort.',
-        category: 'Travel Perks'
+        category: 'Travel Perks',
     },
     {
         title: 'E-commerce Mega Sales',
@@ -53,3 +54,4 @@ export default function Testimonials() {
         </section>
     );
 }
+

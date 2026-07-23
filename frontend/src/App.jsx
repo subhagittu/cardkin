@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { supabase } from './lib/supabaseClient';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -36,10 +37,63 @@ export default function App() {
   // Auth and Profile portfolio state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [myCards, setMyCards] = useState([
-    { id: 101, name: "Infinia", bank: "HDFC Bank", network: "Visa", color: "dark-gold" },
-    { id: 102, name: "Cashback", bank: "SBI Card", network: "RuPay", color: "deep-teal" }
-  ]);
+  const [myCards, setMyCards] = useState([]);
+
+  // Supabase Auth listener
+  useEffect(() => {
+    import('./lib/supabaseClient').then(({ supabase }) => {
+
+      const fetchProfile = async (session) => {
+        if (!session) {
+          setIsLoggedIn(false);
+          setUser(null);
+          setMyCards([]);
+          return;
+        }
+
+        const { user } = session;
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('full_name, email, avatar_url, owned_cards, phone')
+          .eq('id', user.id)
+          .single();
+
+        if (data) {
+          let syncedPhone = data.phone;
+          // IMPORTANT: If phone is missing in public.profiles but available in auth metadata, sync it!
+          if (!syncedPhone && user.user_metadata?.phone) {
+            syncedPhone = user.user_metadata.phone;
+            supabase.from('profiles').update({ phone: syncedPhone }).eq('id', user.id).then();
+          }
+
+          setIsLoggedIn(true);
+          setUser({
+            id: user.id,
+            name: data.full_name || user.email,
+            email: data.email || user.email,
+            avatar: data.avatar_url,
+            phone: syncedPhone
+          });
+          setMyCards(data.owned_cards || []);
+        } else {
+          // Fallback if profile row isn't fully created yet but auth exists
+          setIsLoggedIn(true);
+          setUser({ id: user.id, name: user.user_metadata?.full_name || user.email, email: user.email, phone: user.user_metadata?.phone });
+          setMyCards([]);
+        }
+      };
+
+      // Check active session
+      supabase.auth.getSession().then(({ data: { session } }) => fetchProfile(session));
+
+      // Listen for auth changes (e.g., login, logout)
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        fetchProfile(session);
+      });
+
+      return () => subscription.unsubscribe();
+    });
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -133,7 +187,8 @@ export default function App() {
 
       {currentView === 'dashboard' ? (
         <Dashboard
-          onLogout={() => {
+          onLogout={async () => {
+            await supabase.auth.signOut();
             setIsLoggedIn(false);
             setUser(null);
             setCurrentView('landing');
@@ -158,7 +213,8 @@ export default function App() {
               activeSection={activeSection}
               isLoggedIn={isLoggedIn}
               user={user}
-              onLogout={() => {
+              onLogout={async () => {
+                await supabase.auth.signOut();
                 setIsLoggedIn(false);
                 setUser(null);
                 setCurrentView('landing');
@@ -169,7 +225,7 @@ export default function App() {
             />
           )}
 
-          <main className="container main-content">
+          <main className={`main-content ${currentView === 'search-results' ? 'search-full' : 'container'}`}>
             {currentView === 'landing' ? (
               <>
                 <div id="home" className="hero-grid">
@@ -236,7 +292,8 @@ export default function App() {
                 myCards={myCards}
                 setMyCards={setMyCards}
                 onBack={() => setCurrentView('landing')}
-                onLogout={() => {
+                onLogout={async () => {
+                  await supabase.auth.signOut();
                   setIsLoggedIn(false);
                   setUser(null);
                   setCurrentView('landing');
