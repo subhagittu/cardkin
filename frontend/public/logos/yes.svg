@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" role="img" aria-label="Yes Bank">
+  <!-- Yes Bank logo: Blue circle with white star/YES mark -->
+  <!-- Blue filled background circle -->
+  <circle cx="35" cy="35" r="28" fill="#00518F"/>
+  <!-- White 'Y' shape inside circle -->
+  <line x1="24" y1="15" x2="35" y2="30" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="46" y1="15" x2="35" y2="30" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="35" y1="30" x2="35" y2="48" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <!-- YES text in blue -->
+  <text x="73" y="30" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="22" fill="#00518F">YES</text>
+  <text x="73" y="52" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#C4261D" letter-spacing="3">BANK</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- PNB Logo -->
+  <rect x="5" y="15" width="70" height="70" rx="10" fill="#a31945"/>
+  <circle cx="45" cy="40" r="14" fill="#f8b411"/>
+  <rect x="23" y="26" width="10" height="44" fill="#f8b411"/>
+  <path d="M 23,70 C 23,82 45,82 45,70 L 45,50 C 33,50 33,55 33,55 L 23,55 Z" fill="#f8b411"/>
+  
+  <rect x="80" y="15" width="115" height="70" rx="10" fill="#f8b411"/>
+  <text x="137" y="64" font-family="'Arial Black', 'Arial', sans-serif" font-weight="900" font-size="52" fill="#a31945" text-anchor="middle" letter-spacing="-1.5">nb</text>
+</svg>

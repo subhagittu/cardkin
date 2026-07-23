@@ -1,16 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" role="img" aria-label="SBI Card">
-  <!-- SBI circular keyhole emblem -->
-  <!-- Outer blue circle -->
-  <circle cx="32" cy="32" r="28" fill="#23388a"/>
-  <!-- White inner circle -->
-  <circle cx="32" cy="28" r="16" fill="white"/>
-  <!-- Small blue dot (keyhole top circle) -->
-  <circle cx="32" cy="26" r="8" fill="#23388a"/>
-  <!-- Keyhole stem (white rectangle pointing up into circle) -->
-  <rect x="27" y="30" width="10" height="18" rx="2" fill="white"/>
-  <!-- Inner white ring gap -->
-  <circle cx="32" cy="26" r="4" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 90" role="img" aria-label="State Bank of India">
+  <!-- SBI official emblem - the iconic circle-keyhole/pilgrim path in blue -->
+  <!-- Outer circle = blue ring -->
+  <circle cx="45" cy="45" r="42" fill="#22308a"/>
+  <!-- Inner white circle cutout to form ring -->
+  <circle cx="45" cy="45" r="34" fill="white"/>
+  <!-- The SBI key path recreated: vertical bar going up from circle to top -->
+  <!-- Bottom circle of key -->
+  <circle cx="45" cy="55" r="16" fill="#22308a"/>
+  <!-- Small inner cutout circle -->
+  <circle cx="45" cy="55" r="8" fill="white"/>
+  <!-- Key shaft going upward -->
+  <rect x="41" y="10" width="8" height="35" rx="3" fill="#22308a"/>
+  <!-- Key bits/teeth on right of shaft -->
+  <rect x="49" y="18" width="8" height="4" rx="1" fill="#22308a"/>
+  <rect x="49" y="28" width="6" height="4" rx="1" fill="#22308a"/>
   <!-- SBI text -->
-  <text x="70" y="30" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="24" fill="#23388a">SBI</text>
-  <text x="70" y="50" font-family="Arial, sans-serif" font-weight="600" font-size="16" fill="#23388a" font-style="italic">card</text>
+  <text x="98" y="36" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="26" fill="#22308a">SBI</text>
+  <text x="98" y="58" font-family="Arial, sans-serif" font-weight="400" font-size="13" fill="#22308a" letter-spacing="0.5">State Bank of India</text>
+  <!-- Tagline -->
+  <text x="98" y="74" font-family="Arial, sans-serif" font-weight="400" font-size="10" fill="#888" letter-spacing="0.3">The Banker to Every Indian</text>
 </svg>

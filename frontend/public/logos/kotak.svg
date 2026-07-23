@@ -1,10 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" role="img" aria-label="Kotak Mahindra Bank">
-  <!-- Red infinity / leaf overlapping ellipses mark (Kotak brand) -->
-  <ellipse cx="22" cy="32" rx="18" ry="12" fill="#ed1c2d" transform="rotate(-30 22 32)"/>
-  <ellipse cx="36" cy="32" rx="18" ry="12" fill="#c8001c" transform="rotate(30 36 32)"/>
-  <!-- White centre overlap -->
-  <ellipse cx="29" cy="32" rx="7" ry="9" fill="white"/>
-  <!-- kotak text -->
-  <text x="58" y="30" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="#ed1c2d" letter-spacing="-0.3">kotak</text>
-  <text x="58" y="46" font-family="Arial, sans-serif" font-weight="500" font-size="9" fill="#666" letter-spacing="0.3">Kotak Mahindra Bank</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Kotak Bank Icon -->
+  <circle cx="50" cy="50" r="45" fill="#1b3a6b"/>
+  <!-- White Infinity Loop -->
+  <path d="M 20,60 C 5,60 5,40 20,40 C 35,40 45,55 50,55 C 55,55 65,40 80,40 C 95,40 95,60 80,60 C 65,60 55,45 50,45 C 45,45 35,60 20,60 Z M 22,46 C 14,46 14,54 22,54 C 28,54 35,48 50,50 C 35,52 28,46 22,46 Z M 78,46 C 86,46 86,54 78,54 C 72,54 65,48 50,50 C 65,52 72,46 78,46 Z" fill="white" fill-rule="evenodd"/>
+  <!-- Red vertical bar -->
+  <rect x="44" y="15" width="12" height="70" fill="#e31837"/>
 </svg>

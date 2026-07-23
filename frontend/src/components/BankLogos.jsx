@@ -2,25 +2,30 @@ import React from 'react';
 import './BankLogos.css';
 
 /**
- * Local SVG logos stored in /public/logos/ — served by Vite as static assets.
- * No external dependencies, always available.
+ * Bank logos with name labels displayed next to each logo image.
+ * Uses real downloaded images for most banks + accurate SVGs for others.
  */
 const BANKS = [
-    { id: 'hdfc', name: 'HDFC Bank', src: '/logos/hdfc.svg' },
-    { id: 'axis', name: 'Axis Bank', src: '/logos/axis.svg' },
-    { id: 'sbi', name: 'SBI Card', src: '/logos/sbi.svg' },
-    { id: 'icici', name: 'ICICI Bank', src: '/logos/icici.svg' },
-    { id: 'kotak', name: 'Kotak Mahindra Bank', src: '/logos/kotak.svg' },
-    { id: 'indusind', name: 'IndusInd Bank', src: '/logos/indusind.svg' },
+    { id: 'hdfc',     name: 'HDFC Bank',           src: '/logos/hdfc.png' },
+    { id: 'icici',    name: 'ICICI Bank',           src: '/logos/icici.png' },
+    { id: 'axis',     name: 'Axis Bank',            src: '/logos/axis.svg' },
+    { id: 'sbi',      name: 'SBI',                  src: '/logos/sbi.webp' },
+    { id: 'kotak',    name: 'Kotak Mahindra Bank',  src: '/logos/kotak_new.png' },
+    { id: 'indusind', name: 'IndusInd Bank',        src: '/logos/indusind_new.png' },
+    { id: 'yes',      name: 'Yes Bank',             src: '/logos/yes.png' },
+    { id: 'pnb',      name: 'Punjab National Bank', src: '/logos/pnb_new.png' },
+    { id: 'bob',      name: 'Bank of Baroda',       src: '/logos/bob.png' },
+    { id: 'canara',   name: 'Canara Bank',          src: '/logos/canara.png' },
+    { id: 'federal',  name: 'Federal Bank',         src: '/logos/federal_new.png' },
+    { id: 'rbl',      name: 'RBL Bank',             src: '/logos/rbl.png' },
 ];
 
 export default function BankLogos() {
-    // Triple so the seamless loop works on all screen widths
     const repeated = [...BANKS, ...BANKS, ...BANKS];
 
     return (
         <div className="bank-logos-section">
-            <p className="bank-logos-heading">Trusted by cardholders from India's leading banks</p>
+            <p className="bank-logos-heading">Trusted by cardholders from India&apos;s leading banks</p>
             <div className="logos-marquee-wrapper" aria-hidden="true">
                 <div className="logos-marquee-track">
                     {repeated.map((bank, i) => (
@@ -30,9 +35,13 @@ export default function BankLogos() {
                                 alt={bank.name}
                                 className="bank-logo-img"
                                 loading="lazy"
-                                width="140"
-                                height="44"
+                                width="160"
+                                height="50"
                             />
+                            {/* Show name label for logos that are pure image/icon without text */}
+                            {!bank.hideName && (
+                                <span className="bank-logo-name">{bank.name}</span>
+                            )}
                         </span>
                     ))}
                 </div>

@@ -1,17 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" role="img" aria-label="HDFC Bank">
-  <!-- Red H-bracket mark -->
-  <!-- Left vertical bar -->
-  <rect x="8" y="8" width="10" height="48" rx="2" fill="#e31837"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" role="img" aria-label="HDFC Bank">
+  <!-- HDFC Bank iconic logo: Red bracket/H mark + blue text -->
+  <!-- Left vertical bar of bracket -->
+  <rect x="6" y="6" width="11" height="58" rx="1.5" fill="#ED232A"/>
   <!-- Top horizontal bar -->
-  <rect x="8" y="8" width="36" height="10" rx="2" fill="#e31837"/>
+  <rect x="6" y="6" width="42" height="11" rx="1.5" fill="#ED232A"/>
   <!-- Bottom horizontal bar -->
-  <rect x="8" y="46" width="36" height="10" rx="2" fill="#e31837"/>
-  <!-- Right vertical bar (short, open bracket) -->
-  <rect x="34" y="8" width="10" height="10" rx="2" fill="#e31837"/>
-  <rect x="34" y="46" width="10" height="10" rx="2" fill="#e31837"/>
-  <!-- Crossbar -->
-  <rect x="14" y="29" width="20" height="7" rx="1.5" fill="#e31837"/>
-  <!-- HDFC text -->
-  <text x="58" y="32" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="#003580" letter-spacing="-0.5">HDFC</text>
-  <text x="58" y="52" font-family="Arial, sans-serif" font-weight="700" font-size="13" fill="#003580" letter-spacing="3">BANK</text>
+  <rect x="6" y="53" width="42" height="11" rx="1.5" fill="#ED232A"/>
+  <!-- Right top nub -->
+  <rect x="37" y="6" width="11" height="11" rx="1.5" fill="#ED232A"/>
+  <!-- Right bottom nub -->
+  <rect x="37" y="53" width="11" height="11" rx="1.5" fill="#ED232A"/>
+  <!-- Middle crossbar -->
+  <rect x="13" y="30" width="24" height="10" rx="1.5" fill="#ED232A"/>
+  <!-- HDFC text in deep navy blue -->
+  <text x="60" y="36" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="26" fill="#004C8F" letter-spacing="-0.5">HDFC</text>
+  <text x="60" y="55" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#004C8F" letter-spacing="4.5">BANK</text>
 </svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" role="img" aria-label="Canara Bank">
+  <!-- Canara Bank logo: Yellow and blue lamp/flame symbol -->
+  <!-- Blue circle background -->
+  <circle cx="35" cy="35" r="28" fill="#019EEC"/>
+  <!-- Yellow lamp/flame shape inside circle -->
+  <!-- Lamp base -->
+  <rect x="28" y="48" width="14" height="5" rx="2" fill="#FFB600"/>
+  <!-- Lamp stem -->
+  <rect x="33" y="38" width="4" height="12" rx="1" fill="#FFB600"/>
+  <!-- Lamp bowl -->
+  <ellipse cx="35" cy="38" rx="10" ry="5" fill="#FFB600"/>
+  <!-- Flame -->
+  <path d="M35,15 Q28,22 30,32 Q33,28 35,26 Q37,28 40,32 Q42,22 35,15Z" fill="#FFB600"/>
+  <!-- Canara Bank text -->
+  <text x="73" y="32" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="18" fill="#019EEC" letter-spacing="0">Canara</text>
+  <text x="73" y="52" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="18" fill="#019EEC" letter-spacing="0">Bank</text>
+</svg>

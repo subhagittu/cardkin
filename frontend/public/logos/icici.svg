@@ -1,8 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 64" role="img" aria-label="ICICI Bank">
-  <!-- Two orange rounded pillars (ICICI brand mark) -->
-  <rect x="6"  y="8" width="16" height="48" rx="8" fill="#f47720"/>
-  <rect x="26" y="8" width="16" height="48" rx="8" fill="#f47720"/>
-  <!-- ICICI text -->
-  <text x="52" y="32" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="#f47720" letter-spacing="-0.3">ICICI</text>
-  <text x="52" y="52" font-family="Arial, sans-serif" font-weight="600" font-size="13" fill="#f47720" letter-spacing="2">Bank</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" role="img" aria-label="ICICI Bank">
+  <!-- ICICI Bank logo: Two orange pillars/columns mark + dark text -->
+  <!-- Left orange pillar -->
+  <rect x="5" y="10" width="14" height="50" rx="7" fill="#F99D27"/>
+  <!-- Right orange pillar -->
+  <rect x="23" y="10" width="14" height="50" rx="7" fill="#F99D27"/>
+  <!-- Small top connector accent line -->
+  <rect x="5" y="10" width="32" height="5" rx="2.5" fill="#F99D27"/>
+  <!-- ICICI text in dark navy -->
+  <text x="50" y="30" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="22" fill="#B02A30">ICICI</text>
+  <text x="50" y="52" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#B02A30" letter-spacing="3">Bank</text>
 </svg>
